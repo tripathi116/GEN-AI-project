@@ -58,7 +58,6 @@ async function registerUserController(req,res) {
  * @description Login a user, expects email and password in the request body
  * @access Public
  */
-
 async function loginUserController(req,res) {
     const {email,password} = req.body  
 
