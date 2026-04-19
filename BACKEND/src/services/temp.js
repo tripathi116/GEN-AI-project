@@ -1,5 +1,5 @@
 const resume = `
-Name: Arjun mishra
+Name: Arjun Sharma
 Email: arjun.sharma@gmail.com
 Phone: +91 9876543210
 Location: Meerut, Uttar Pradesh
