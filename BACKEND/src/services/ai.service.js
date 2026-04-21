@@ -34,7 +34,8 @@ const interviewReportSchema = z.object({
         day: z.number().describe("The day number in the preparation plan, starting from 1"),
         focus: z.string().describe("The main focus of the preparation for that day, such as a specific topic or skill to work on"),
         tasks: z.array(z.string()).describe("A list of tasks to be completed on that day to prepare for the interview, such as studying a specific concept, practicing coding problems, etc.")
-    })).describe("A day-wise preparation plan for the candidate to follow in order to prepare for the interview effectively, based on the analysis of the resume and job describe")
+    })).describe("A day-wise preparation plan for the candidate to follow in order to prepare for the interview effectively, based on the analysis of the resume and job describe"),
+    title: z.string().describe("The title for the job for which the interview report is generated")
 }) 
 
 
@@ -115,8 +116,7 @@ async function generateInterviewReport({resume, selfDescription, jobDescription}
 })
 
     const parsed = JSON.parse(response.text)
-console.log(JSON.stringify(parsed, null, 2))
-return parsed
+    return parsed
 }
 
 module.exports = { generateInterviewReport }
