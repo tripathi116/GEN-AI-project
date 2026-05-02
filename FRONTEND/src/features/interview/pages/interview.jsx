@@ -18,7 +18,7 @@ const Interview = () => {
     try {
         setResumeLoading(true) 
         const response = await axios.post(
-            `http://localhost:3000/api/resume/${report._id}`,
+            `https://hireready-36oz.onrender.com/api/resume/${report._id}`,
             {},
             {
                 responseType: 'blob',
