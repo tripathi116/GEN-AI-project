@@ -1,12 +1,51 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../styles/interview.scss"
 import { useInterview } from '../hooks/useInterview.js'
+import { useNavigate, useParams } from 'react-router'
+import axios from 'axios'
+
+
 
 const Interview = () => {
   const [activeTab, setActiveTab] = useState('technical')
   const [expandedQuestion, setExpandedQuestion] = useState(null)
-  const {report} = useInterview()
-  
+  const [resumeLoading, setResumeLoading] = useState(false)
+  const {report, getReportById, loading} = useInterview()
+  const {interviewId} = useParams()
+  const navigate = useNavigate()
+
+    const handleDownloadResume = async () => {
+    try {
+        setResumeLoading(true) 
+        const response = await axios.post(
+            `http://localhost:3000/api/resume/${report._id}`,
+            {},
+            {
+                responseType: 'blob',
+                withCredentials: true
+            }
+        )
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'tailored-resume.pdf')
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+    } catch (error) {
+        console.error(error)
+    }finally {
+        setResumeLoading(false)  
+    }
+  }
+
+  useEffect(() => {
+    if (interviewId) {
+      if (!report || report._id !== interviewId) {
+            getReportById(interviewId)
+        }
+    }
+  }, [interviewId])
 
   const navigationItems = [
     { id: 'technical', label: 'Technical Questions', icon: '◄►' },
@@ -16,6 +55,14 @@ const Interview = () => {
 
   const toggleQuestion = (questionId) => {
     setExpandedQuestion(expandedQuestion === questionId ? null : questionId)
+  }
+
+  if (loading || !report) {
+    return (
+        <main className='loading-screen'>
+            <h1>Loading your interview report...</h1>
+        </main>
+    )
   }
 
   const getActiveContent = () => {
@@ -28,30 +75,33 @@ const Interview = () => {
               <span className="question-count">{report.technicalQuestions.length} questions</span>
             </div>
             <div className="accordion-list">
-              {report.technicalQuestions.map((q) => (
-                <div key={q.id} className="accordion-item">
-                  <button
-                    className="accordion-header"
-                    onClick={() => toggleQuestion(q.id)}
-                  >
-                    <span className="question-number">Q{q.id + 1}</span>
-                    <span className="question-title">{q.question}</span>
-                    <span className={`accordion-icon ${expandedQuestion === q.id ? 'open' : ''}`}>▼</span>
-                  </button>
-                  {expandedQuestion === q.id && (
-                    <div className="accordion-content">
-                      <div className="answer-section">
-                        <p className="answer-label">Intention</p>
-                        <p className="answer-text">{q.intention}</p>
+              {report.technicalQuestions.map((q, idx) => {
+                const itemId = `technical-${idx}`
+                return (
+                  <div key={itemId} className="accordion-item">
+                    <button
+                      className="accordion-header"
+                      onClick={() => toggleQuestion(itemId)}
+                    >
+                      <span className="question-number">Q{idx + 1}</span>
+                      <span className="question-title">{q.question}</span>
+                      <span className={`accordion-icon ${expandedQuestion === itemId ? 'open' : ''}`}>▼</span>
+                    </button>
+                    {expandedQuestion === itemId && (
+                      <div className="accordion-content">
+                        <div className="answer-section">
+                          <p className="answer-label">Intention</p>
+                          <p className="answer-text">{q.intention}</p>
+                        </div>
+                        <div className="answer-section">
+                          <p className="answer-label">Answer</p>
+                          <p className="answer-text">{q.answer}</p>
+                        </div>
                       </div>
-                      <div className="answer-section">
-                        <p className="answer-label">Answer</p>
-                        <p className="answer-text">{q.answer}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         )
@@ -63,30 +113,33 @@ const Interview = () => {
               <span className="question-count">{report.behavioralQuestions.length} questions</span>
             </div>
             <div className="accordion-list">
-              {report.behavioralQuestions.map((q) => (
-                <div key={q.id} className="accordion-item">
-                  <button
-                    className="accordion-header"
-                    onClick={() => toggleQuestion(q.id)}
-                  >
-                    <span className="question-number">Q{q.id + 1}</span>
-                    <span className="question-title">{q.question}</span>
-                    <span className={`accordion-icon ${expandedQuestion === q.id ? 'open' : ''}`}>▼</span>
-                  </button>
-                  {expandedQuestion === q.id && (
-                    <div className="accordion-content">
-                      <div className="answer-section">
-                        <p className="answer-label">Intention</p>
-                        <p className="answer-text">{q.intention}</p>
+              {report.behavioralQuestions.map((q, idx) => {
+                const itemId = `behavioral-${idx}`
+                return (
+                  <div key={itemId} className="accordion-item">
+                    <button
+                      className="accordion-header"
+                      onClick={() => toggleQuestion(itemId)}
+                    >
+                      <span className="question-number">Q{idx + 1}</span>
+                      <span className="question-title">{q.question}</span>
+                      <span className={`accordion-icon ${expandedQuestion === itemId ? 'open' : ''}`}>▼</span>
+                    </button>
+                    {expandedQuestion === itemId && (
+                      <div className="accordion-content">
+                        <div className="answer-section">
+                          <p className="answer-label">Intention</p>
+                          <p className="answer-text">{q.intention}</p>
+                        </div>
+                        <div className="answer-section">
+                          <p className="answer-label">Answer</p>
+                          <p className="answer-text">{q.answer}</p>
+                        </div>
                       </div>
-                      <div className="answer-section">
-                        <p className="answer-label">Answer</p>
-                        <p className="answer-text">{q.answer}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         )
@@ -149,6 +202,11 @@ const Interview = () => {
                 </button>
               ))}
             </nav>
+            <button 
+              onClick={() => navigate('/')}
+              className="home-btn">
+               Home
+            </button>
           </div>
         </aside>
 
@@ -188,6 +246,14 @@ const Interview = () => {
                   </span>
                 ))}
               </div>
+            </div>
+            <div className="download-section">
+              <button 
+                onClick={handleDownloadResume}
+                disabled={resumeLoading}
+                className="download-btn">
+                {resumeLoading ? '⏳ Downloading your resume, please wait...' : ' Download Tailored Resume'}
+              </button>
             </div>
           </div>
         </aside>
