@@ -148,19 +148,29 @@ const Home = () => {
       </div>
 
       {/* Footer Section */}
-      <div className="footer-section">
-        <div className="footer-left">
-          <p className="footer-info">
+<div className="footer-section">
+    <div className="footer-left">
+        <p className="footer-info">
             <span className="ai-badge">⚡ AI-POWERED STRATEGY GENERATION • APPROX 30S</span>
-          </p>
-        </div>
+        </p>
+    </div>
+    <div style={{display: 'flex', gap: '1rem'}}>
         <button 
-          onClick ={handleGenerateReport}
-          className="btn btn-primary">
-          GENERATE MY INTERVIEW STRATEGY
-          <span className="btn-icon">★</span>
+            onClick={() => {
+                localStorage.removeItem("token")
+                navigate("/login")
+            }}
+            className="btn btn-logout">
+              Logout
         </button>
-      </div>
+        <button 
+            onClick={handleGenerateReport}
+            className="btn btn-primary">
+            GENERATE MY INTERVIEW STRATEGY
+            <span className="btn-icon">★</span>
+        </button>
+    </div>
+</div>
 
       {/* Recent Reports List */}
         {reports.length > 0 && (

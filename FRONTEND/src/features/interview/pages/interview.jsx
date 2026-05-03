@@ -207,11 +207,6 @@ const Interview = () => {
               className="home-btn">
                Home
             </button>
-            <button 
-              onClick={() => navigate('/login')}
-              className="home-btn">
-                Logout
-            </button>
           </div>
         </aside>
 

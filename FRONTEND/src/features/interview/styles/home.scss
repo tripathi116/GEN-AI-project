@@ -303,6 +303,23 @@ $success-color: #00d084;
   font-size: 1.1rem;
 }
 
+.btn-logout {
+    background: transparent;
+    border: 1px solid #ff4081;
+    color: #ff4081;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: #ff4081;
+        color: white;
+    }
+}
+
 // Recent Reports — YAHAN LIKHO
 .recent-reports {
   max-width: 1200px;
