@@ -358,7 +358,6 @@ $danger-color: #ef5350;
     stroke: $success-color;
     stroke-width: 3;
     stroke-dasharray: 172.78;
-    stroke-dashoffset: calc(172.78 - (172.78 * 88) / 100);
     transition: stroke-dashoffset 0.5s ease;
   }
 }
