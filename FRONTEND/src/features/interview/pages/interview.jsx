@@ -226,7 +226,8 @@ const Interview = () => {
                   <circle cx="60" cy="60" r="55" className="score-bg" />
                   <circle cx="60" cy="60" r="55" className="score-fill" 
                   style={{
-                    strokeDashoffset: 172.78 - (172.78 * report.matchScore) / 100
+                      strokeDasharray: `${(172.78 * report.matchScore) / 100} 172.78`,
+                      strokeDashoffset: 0
                   }}/>
                 </svg>
                 <div className="score-content">
