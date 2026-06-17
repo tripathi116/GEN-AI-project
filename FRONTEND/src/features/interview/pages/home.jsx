@@ -259,7 +259,18 @@ const Home = () => {
                         </button>
                       </div>
                       <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-2">
-                        <span className="text-xs text-gray-400 font-medium">Match Score</span>
+                        <div className="flex flex-col">
+                          <span className="text-xs text-gray-400 font-medium">Match Score</span>
+                          <span className="text-[10px] text-gray-500 font-medium mt-0.5">
+                            {report.matchScore >= 80 
+                              ? 'Strong Match' 
+                              : report.matchScore >= 50 
+                                ? 'Moderate Match' 
+                                : report.matchScore >= 40 
+                                  ? 'Low Match' 
+                                  : 'Weak Match'}
+                          </span>
+                        </div>
                         <span className="text-sm font-semibold text-white px-2.5 py-1 rounded-lg bg-white/5 border border-white/10">
                           {report.matchScore}%
                         </span>

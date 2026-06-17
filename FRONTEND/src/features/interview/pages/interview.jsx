@@ -315,8 +315,24 @@ const Interview = () => {
                     </div>
                   </div>
                   <div className="text-center">
-                    <p className="text-sm font-medium text-white">Strong match</p>
-                    <p className="text-xs text-white/50 mt-1">for this position</p>
+                    <p className="text-sm font-medium text-white">
+                      {report.matchScore >= 80 
+                        ? 'Strong Match' 
+                        : report.matchScore >= 50 
+                          ? 'Moderate Match' 
+                          : report.matchScore >= 40 
+                            ? 'Low Match' 
+                            : 'Weak Match'}
+                    </p>
+                    <p className="text-xs text-white/50 mt-1">
+                      {report.matchScore >= 80 
+                        ? 'Highly aligned with this position' 
+                        : report.matchScore >= 50 
+                          ? 'Good potential, with some key gaps' 
+                          : report.matchScore >= 40 
+                            ? 'Requires significant preparation' 
+                            : 'Significant gaps in core requirements'}
+                    </p>
                   </div>
                 </div>
               </div>
