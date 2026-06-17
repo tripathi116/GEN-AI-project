@@ -56,6 +56,19 @@ async function getInterviewReportByIDController(req, res) {
 
 
 /**
+ * @description controller to get all interview reports for the logged in user.
+ */
+async function getAllInterviewReportConntroller(req, res) {
+    const interviewReports = await interviewReportModel.find({ user: req.user.id }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+        message: "Interview reports fetched successfully",
+        interviewReports
+    });
+}
+
+
+/**
  * @description controller to delete interview report by interviewID.
  */
 async function deleteInterviewReportController(req, res) {

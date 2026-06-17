@@ -62,13 +62,20 @@ export const useInterview = () => {
     }
 
     const deleteReport = async (interviewId) => {
+        // Store current reports in case we need to roll back
+        const previousReports = reports;
+
+        // Optimistically update the UI instantly
+        setReports((prevReports) => prevReports.filter(report => report._id !== interviewId));
+
         try {
-            await deleteInterviewReport(interviewId)
-            setReports((prevReports) => prevReports.filter(report => report._id !== interviewId))
-            return true
+            await deleteInterviewReport(interviewId);
+            return true;
         } catch (error) {
-            console.log(error)
-            return false
+            console.error("Failed to delete report from backend:", error);
+            // Rollback to the previous state if the API call fails
+            setReports(previousReports);
+            return false;
         }
     }
 
