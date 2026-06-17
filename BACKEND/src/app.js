@@ -7,9 +7,21 @@ const app = express();
 
 app.use(cookieParser())
 app.use(express.json());
+const allowedOrigins = [
+    "https://gen-ai-project-ovqt.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:5174"
+];
+
 app.use(cors({
-    origin:"https://gen-ai-project-ovqt.vercel.app",
-    credentials:true
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true
 }))
 
 /*require all the routes here*/

@@ -1,7 +1,11 @@
 import axios from "axios"
 
+const baseURL = typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? ""
+    : "https://hireready-36oz.onrender.com";
+
 const api = axios.create({
-    baseURL: "https://hireready-36oz.onrender.com",
+    baseURL: baseURL,
     withCredentials: true
 })
 

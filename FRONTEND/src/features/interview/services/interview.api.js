@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const baseURL = typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? ""
+    : "https://hireready-36oz.onrender.com";
+
 const api = axios.create({
-    baseURL: "https://hireready-36oz.onrender.com",
+    baseURL: baseURL,
     withCredentials: true
 }) 
 
@@ -38,6 +42,15 @@ export const getInterviewReportById = async (interviewId) => {
  */
 export const getAllInterviewReports = async () => { 
     const response = await api.get("/api/interview/")
+
+    return response.data
+}
+
+/**
+ * @description service to delete an interview report by interviewID.
+ */
+export const deleteInterviewReport = async (interviewId) => {
+    const response = await api.delete(`/api/interview/report/${interviewId}`)
 
     return response.data
 }

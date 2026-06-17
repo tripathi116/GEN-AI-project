@@ -56,16 +56,27 @@ async function getInterviewReportByIDController(req, res) {
 
 
 /**
- * @description controller to get interview report by interviewID.
+ * @description controller to delete interview report by interviewID.
  */
-async function getAllInterviewReportConntroller(req, res) {
-    const interviewReports = await interviewReportModel.find({user: req.user.id}).sort({createdAt: -1}).select("-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan")
+async function deleteInterviewReportController(req, res) {
+    const { interviewId } = req.params;
+    const interviewReport = await interviewReportModel.findOneAndDelete({ _id: interviewId, user: req.user.id });
+
+    if (!interviewReport) {
+        return res.status(404).json({
+            message: "Interview report not found or unauthorized"
+        });
+    }
 
     res.status(200).json({
-        message: "Interview reports fetched successfully",
-        interviewReports
-    })
+        message: "Interview report deleted successfully"
+    });
 }
 
 
-module.exports = {generateInterviewReportController, getInterviewReportByIDController ,getAllInterviewReportConntroller}
+module.exports = {
+    generateInterviewReportController,
+    getInterviewReportByIDController,
+    getAllInterviewReportConntroller,
+    deleteInterviewReportController
+}
